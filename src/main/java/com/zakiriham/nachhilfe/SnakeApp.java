@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 /**
  * JavaFX App
  */
+
+
 public class SnakeApp extends Application {
 
     @Override

@@ -22,6 +22,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  * JavaFX App
@@ -37,6 +39,7 @@ public class SnakeGame {
     public static final int UNIT = 20;
 
     private Snake snake;
+    private List<Snake> snakes = new LinkedList<Snake>();
     private GraphicsContext gc;
 
     public SnakeGame(int width, int height){
@@ -45,6 +48,9 @@ public class SnakeGame {
 
         snake = new Snake(width/2, height/2 );
 
+        snakes.add(new FatSnake(0,0) );
+        snakes.add(new Snake(width/2, height/2 ) );
+        
     }
 
     private void gameLoop(){
@@ -60,7 +66,9 @@ public class SnakeGame {
             gc.setFill(Color.WHITE);
             gc.fillRect(0,0, width, height);
 
-            snake.draw(gc);
+            for(Snake snake: snakes){
+                snake.draw(gc);
+            }
 
         }
     }
@@ -96,6 +104,14 @@ public class SnakeGame {
             @Override
             public void handle(KeyEvent event) {
                 System.out.println("Key event handled!");
+                Snake snake = snakes.get(0);
+                 switch (event.getCode()) {
+                    case UP:    snake.moveUpwards(); break;
+                    case DOWN:  snake.moveDownwards(); break;
+                    case LEFT:  snake.moveToTheLeft(); break;
+                    case RIGHT: snake.moveToTheRight(); break;
+                    default: System.out.println("Don't react to this key!");
+                }
             }
         });
         gc = canvas.getGraphicsContext2D();
